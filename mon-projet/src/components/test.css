@@ -1,0 +1,20 @@
+.test-container{
+    width: 85%;
+    min-height: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: pink;
+}
+
+.p1{
+    width: 20rem;
+    min-height: 20rem;
+    background-color: blue;
+}
+
+.p2{
+    width: 20rem;
+    min-height: 20rem;
+    background-color: red;
+}
