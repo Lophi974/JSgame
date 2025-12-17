@@ -1,0 +1,44 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    ports:
+      - "7070:3306"
+    env_file:
+      - ./backend/.env
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./rpg.sql:/docker-entrypoint-initdb.d/rpg.sql
+
+  nodeback:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "4242:4242"
+    develop:
+      watch:
+        - action: sync
+          path: ./backend
+          target: /backend
+        - action: rebuild
+          path: ./backend/package.json
+
+  nodefront:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4343"
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend
+          target: /frontend
+        - action: rebuild
+          path: ./frontend/package.json
+
+volumes:
+  db_data:
